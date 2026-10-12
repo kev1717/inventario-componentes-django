@@ -1,0 +1,28 @@
+{% extends 'modulo/base.html' %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block content %}
+<div class="card shadow-sm" style="max-width: 720px;">
+    <div class="card-body">
+        <h1 class="h4 mb-3">{{ titulo }}</h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+            {% for campo in form %}
+                <div class="mb-3 {% if campo.field.widget.input_type == 'checkbox' %}form-check{% endif %}">
+                    {% if campo.field.widget.input_type == 'checkbox' %}
+                        {{ campo }} <label class="form-check-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                    {% else %}
+                        <label class="form-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                        {{ campo }}
+                    {% endif %}
+                    {% for error in campo.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% if componente %}{{ componente.get_absolute_url }}{% else %}{% url 'componente_lista' %}{% endif %}" class="btn btn-link">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

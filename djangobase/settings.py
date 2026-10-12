@@ -126,3 +126,6 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Como el inicio de sesión se hace desde el panel de administración:
+LOGIN_URL = '/admin/login/'
